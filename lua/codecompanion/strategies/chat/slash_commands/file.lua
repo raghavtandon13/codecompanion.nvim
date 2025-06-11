@@ -44,7 +44,14 @@ local providers = {
       end,
     })
 
+    --[[ SMALL ADDITION TO THE SNACKS.NVIM PROVIDER
+    -----------------------------------------------
+    The 'cwd' option is set using 'mini.misc.find_root' to dynamically determine the project root directory.
+    This ensures that the picker operates relative to the root of the project (identified by markers like .git, Makefile, or .root),
+    rather than the current working directory, which may not always be the project root.
+    This change improves file discovery and navigation within the context of the entire project. ]]
     snacks.provider.picker.pick({
+      cwd = require("mini.misc").find_root(0, { ".git", "Makefile", ".root" }),
       source = "files",
       prompt = snacks.title,
       confirm = snacks:display(),
